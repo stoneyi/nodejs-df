@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter df output</title>
+    <script src="http://127.0.0.1:3000/js/jquery-1.10.2.js"></script>
+</head>
+<body>
+	<h3>WAY #1: Upload 'df' output file</h3>
+      <strong>only support text/plain file: </strong>
+	<br />
+    <br />
+    <form id="form_1">
+        <input id="file" type="file" name="file" />
+        <br />
+        <br />
+        <input type = "submit" value = "Upload File" />
+    </form>
+
+    <br />
+    
+    <h3>WAY #2: Paste 'df' output below</h3>
+    <form id="form_2">
+        <p>
+        	<textarea name="textarea" rows="20" cols="120"></textarea>
+        </p>
+        <p>
+        	<input type = "submit" value = "Submit">
+        </p>
+    </form>
+
+    <div>
+    	<h3>RESULT:</h3>
+    	<p>mount point with less than <strong>3GB</strong> available space and used more than <strong>75%</strong></p>
+    	<pre>Filesystem              1K-blocks    Used Available Use% Mounted on</pre>
+    	<div id="result">
+    	</div>
+    </div>
+<script type="text/javascript">
+	$("#form_1").submit(function(event){
+    $("#result").empty();
+		let fd = new FormData();
+		if(!$("#file")[0].files[0]){
+			alert("Please select a file before upload");
+			return;
+		}
+		fd.append("file", $("#file")[0].files[0], "df_output");
+		$.ajax({
+			type: "POST",
+            url: 'upload',
+            data: fd, 
+            contentType: false,
+        	  processData: false,
+            success: function(data){
+            	show_result(data);
+            },
+            error:function(err){
+            	alert(err.responseJSON.error);
+            }
+         });
+		event.preventDefault();
+	});
+
+	$("#form_2").submit(function(event){
+    $("#result").empty();
+		var data = $("textarea").val();
+		if(!data){
+			alert("Please paste df output");
+			return;
+		}
+		$.ajax({
+           type: "POST",
+           url: 'process',
+           data: {'data':data},
+           success: function(data)
+           {
+           	show_result(data);
+           },
+           error:function(err){
+            alert(err);
+           }
+         });
+		event.preventDefault();
+	});
+
+	function show_result(data){
+		let lines = data;
+       	$("#result").empty();
+       	for(let line of lines){
+       		$("#result").append($("<pre></pre>").text(line));
+       	}
+	}
+</script>
+</body>
+</html>

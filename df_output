@@ -1,0 +1,13 @@
+Filesystem              1K-blocks    Used Available Use% Mounted on
+devtmpfs                  3948260       0   3948260   0% /dev
+tmpfs                     3961688   60080   3901608   2% /dev/shm
+tmpfs                     3961688    2084   3959604   1% /run
+tmpfs                     3961688       0   3961688   0% /sys/fs/cgroup
+/dev/mapper/fedora-root  51343840 6318972  42387044  13% /
+tmpfs                     3961688     144   3961544   1% /tmp
+/dev/nvme0n1p6             999320  154924    775584  17% /boot
+/dev/mapper/fedora-home  32187172   59024  30470088   1% /home
+/dev/nvme0n1p1             262144   45588    216556  18% /boot/efi
+tmpfs                      792336      16    792320   1% /run/user/42
+tmpfs                      792336    7272    785064   1% /run/user/0
+
